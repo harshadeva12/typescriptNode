@@ -2,9 +2,10 @@ import express, { Request, Response, NextFunction, Application, ErrorRequestHand
 import createHttpError from 'http-errors';
 import morgan from 'morgan'
 import router from './routes/api';
-import {urlencoded} from  "body-parser";
-import cookieParser  from "cookie-parser";
+import { urlencoded } from "body-parser";
+import cookieParser from "cookie-parser";
 import { config } from 'dotenv';
+import mongoose from "mongoose";
 
 // import controller from '@/controllers/userController.ts'
 
@@ -21,6 +22,12 @@ class App {
     }
 
     private initializeDatabaseConnection(): void {
+        const connectionString = "mongodb+srv://harsha:harsha@cluster0.nrbxo4q.mongodb.net/?retryWrites=true&w=majority";
+        mongoose.set('strictQuery', false);
+        mongoose.connect(connectionString, {
+            serverSelectionTimeoutMS: 5000
+        }).catch(err => console.log(err.reason));
+        mongoose.connection
     }
 
     private initializeMiddleware(): void {

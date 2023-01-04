@@ -1,13 +1,16 @@
 import UserController from '../controllers/userController';
 import express from 'express';
+import finalValidations from 'requests/userValidation';
+import { check } from "express-validator";
 const router = express.Router();
+
 
 router.get('/ping', (req, res) => {
    res.send('Pong!');
  });
 
  
-router.get('/test', UserController.store);
+router.get('/test',[ check('name').not().isEmpty().trim().escape().exists()], UserController.store);
 // router.get('/send-mail', async function (req, res) {
 //   try {
 //     await mail.send('route Subject', '<p>dfd<p>', 'This is rout text');

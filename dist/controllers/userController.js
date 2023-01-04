@@ -6,14 +6,16 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const userService_1 = __importDefault(require("../repository/user/userService"));
 class UserController {
     store(req, res) {
-        return userService_1.default.store(req, res);
-        // const name = 'test type';
-        // const user = new User({
-        //     name
-        // });
-        // return user.save()
-        //     .then((user) => res.status(200).json({ user }))
-        //     .catch((error) => res.status(500).json({ error }));
+        try {
+            const data = userService_1.default.store(req);
+            res.status(200).json({
+                message: 'User registered',
+                data
+            });
+        }
+        catch (e) {
+            console.log('error occurred');
+        }
     }
 }
 exports.default = new UserController();
